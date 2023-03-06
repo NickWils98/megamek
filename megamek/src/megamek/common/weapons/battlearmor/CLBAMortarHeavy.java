@@ -17,7 +17,10 @@ import megamek.common.AmmoType;
 import megamek.common.Mounted;
 import megamek.common.WeaponType;
 import megamek.common.alphaStrike.AlphaStrikeElement;
+import megamek.common.options.GameOptions;
+import megamek.common.options.OptionsConstants;
 import megamek.common.weapons.Weapon;
+import megamek.common.weapons.artillery.ArtilleryWeapon;
 
 /**
  * Added per IO Pg 53 - Tech Manual shows this is an IS weapon only
@@ -25,7 +28,7 @@ import megamek.common.weapons.Weapon;
  * @author Sebastian Brocks
  * @since Sep 24, 2004
  */
-public class CLBAMortarHeavy extends Weapon {
+public class CLBAMortarHeavy extends ArtilleryWeapon {
     private static final long serialVersionUID = -141763207003813118L;
 
     public CLBAMortarHeavy() {
@@ -48,8 +51,10 @@ public class CLBAMortarHeavy extends Weapon {
         cost = 7500;
         tonnage = 0.4;
         criticals = 2;
-        flags = flags.or(F_BALLISTIC).or(F_BURST_FIRE).or(F_BA_WEAPON)
-                .andNot(F_MECH_WEAPON).andNot(F_TANK_WEAPON).andNot(F_AERO_WEAPON).andNot(F_PROTO_WEAPON);
+        flags = flags.or(F_BA_WEAPON).andNot(F_MECH_WEAPON).andNot(F_TANK_WEAPON).or(F_MEK_MORTAR).or(F_MISSILE);
+        damage = DAMAGE_BY_CLUSTERTABLE;
+        atClass = CLASS_NONE;
+        infDamageClass = WEAPON_CLUSTER_MISSILE;
         rulesRefs = "263, TM";
         techAdvancement.setTechBase(TECH_BASE_ALL)
                 .setIntroLevel(false)
@@ -78,5 +83,24 @@ public class CLBAMortarHeavy extends Weapon {
     @Override
     public boolean isAlphaStrikeIndirectFire() {
         return true;
+    }
+    
+    @Override
+    public boolean hasIndirectFire() {
+        return true;
+    }
+    
+    @Override
+    public void adaptToGameOptions(GameOptions gOp) {
+        super.adaptToGameOptions(gOp);
+
+        // Indirect Fire
+        if (gOp.booleanOption(OptionsConstants.BASE_INDIRECT_FIRE)) {
+            addMode("");
+            addMode("Indirect");
+        } else {
+            removeMode("");
+            removeMode("Indirect");
+        }
     }
 }

@@ -139,7 +139,8 @@ public class AmmoType extends EquipmentType {
     public static final int T_WHITE_SHARK_T = 111;
     public static final int T_BARRACUDA_T = 112;
     public static final int T_INFANTRY = 113;
-    public static final int NUM_TYPES = 114; // Should always be at the end with the highest number
+    public static final int T_HEAVY_MORTAR = 114;
+    public static final int NUM_TYPES = 115; // Should always be at the end with the highest number
 
     /**
      * Contains the {@code AmmoType}s that could share ammo (e.g. SRM 2 and SRM 6,
@@ -1170,6 +1171,7 @@ public class AmmoType extends EquipmentType {
         EquipmentType.addType(AmmoType.createISMRM5Ammo());
         EquipmentType.addType(AmmoType.createISBATaserAmmo());
         EquipmentType.addType(AmmoType.createBATubeArtyAmmo());
+        EquipmentType.addType(AmmoType.createBAHeavyMortarArtyAmmo());
         base = AmmoType.createBAISLRM1Ammo();
         isBaLrmAmmos.add(base);
         EquipmentType.addType(base);
@@ -3284,6 +3286,36 @@ public class AmmoType extends EquipmentType {
                 .setISAdvancement(3070, 3075, DATE_NONE, DATE_NONE, DATE_NONE)
                 .setISApproximate(true, false, false, false, false).setPrototypeFactions(F_CS)
                 .setProductionFactions(F_CS);
+        return ammo;
+    }
+    
+    private static AmmoType createBAHeavyMortarArtyAmmo() {
+        AmmoType ammo = new AmmoType();
+
+        ammo.name = "BA Heavy Mortar Ammo";
+        // TODO need mutator for Smoke Artillery
+        ammo.shortName = "BA Heavy Mortar Ammo";
+        ammo.setInternalName("BAHeavyMortarArtyAmmo");
+        ammo.damagePerShot = 3;
+        ammo.rackSize = 1;
+        ammo.ammoType = AmmoType.T_HEAVY_MORTAR;
+        ammo.flags = ammo.flags.or(F_BATTLEARMOR);
+        ammo.shots = 1;
+        ammo.bv = 4;
+        ammo.kgPerShot = 4;
+        ammo.cost = 900;
+        ammo.rulesRefs = "284, TO";
+        ammo.techAdvancement.setTechBase(TECH_BASE_ALL)
+	        .setIntroLevel(false)
+	        .setUnofficial(false)
+	        .setTechRating(RATING_B)
+	        .setAvailability(RATING_X, RATING_X, RATING_C, RATING_C)
+	        .setISAdvancement(3054, 3057, 3063, DATE_NONE, DATE_NONE)
+	        .setISApproximate(true, false, false, false, false)
+	        .setClanAdvancement(DATE_NONE, DATE_NONE, 3065, DATE_NONE, DATE_NONE)
+	        .setClanApproximate(false, false, true, false, false)
+	        .setPrototypeFactions(F_FS, F_LC)
+	        .setProductionFactions(F_LC);
         return ammo;
     }
 
