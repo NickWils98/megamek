@@ -28,9 +28,9 @@ import megamek.common.Report;
 public class VictoryResult implements IResult {
     protected boolean victory;
     protected Throwable tr;
-    protected ArrayList<Report> reports = new ArrayList<Report>();
-    protected HashMap<Integer, Double> playerScore = new HashMap<Integer, Double>();
-    protected HashMap<Integer, Double> teamScore = new HashMap<Integer, Double>();
+    protected ArrayList<Report> reports = new ArrayList<>();
+    protected HashMap<Integer, Double> playerScore = new HashMap<>();
+    protected HashMap<Integer, Double> teamScore = new HashMap<>();
     protected double hiScore = 0;
 
     protected VictoryResult(boolean win) {
