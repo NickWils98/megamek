@@ -1,22 +1,22 @@
 package megamek.server;
 
 import junit.framework.TestCase;
-import megamek.common.Entity;
-import megamek.common.Game;
-import megamek.common.IGame;
-import megamek.common.IPlayer;
+import megamek.common.*;
+import megamek.common.net.Packet;
 import megamek.server.commands.VictoryCommand;
 import megamek.server.victory.Victory;
 import megamek.server.victory.VictoryResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Vector;
 
 public class ServerTest {
 
@@ -78,6 +78,93 @@ public class ServerTest {
         TestCase.assertTrue(victory_result);
         Mockito.verify(mockedGame, Mockito.times(1)).setVictoryPlayerId(IPlayer.PLAYER_NONE);
         Mockito.verify(mockedGame, Mockito.times(1)).setVictoryTeam(IPlayer.TEAM_NONE);
+
+    }
+
+    @Test
+    public void testCancelVictory() throws IOException {
+//        Mock the game
+        IGame mockedGame = Mockito.mock(IGame.class);
+//        Set up the test data
+        Mockito.when(mockedGame.getEntities()).thenReturn(Mockito.mock(Iterator.class));
+        Mockito.when(mockedGame.getPlayers()).thenReturn(Mockito.mock(Enumeration.class));
+        Mockito.when(mockedGame.getAttacks()).thenReturn(Mockito.mock(Enumeration.class));
+
+//        start test server
+        Server server = new Server("TestServer", 1111);
+        server.setGame(mockedGame);
+
+//        Call function under test
+        server.cancelVictory();
+
+//        Verify results
+        Mockito.verify(mockedGame,Mockito.times(1)).setForceVictory(false);
+        Mockito.verify(mockedGame, Mockito.times(1)).setVictoryPlayerId(IPlayer.PLAYER_NONE);
+        Mockito.verify(mockedGame, Mockito.times(1)).setVictoryTeam(IPlayer.TEAM_NONE);
+
+    }
+
+    @Test
+    public void testForceVictoryTeam() throws IOException{
+//        Mock the game
+        IGame mockedGame = Mockito.mock(IGame.class);
+//        Mock the player
+        IPlayer mockedPlayer = Mockito.mock(IPlayer.class);
+
+//        Set up the test data
+        Mockito.when(mockedGame.getEntities()).thenReturn(Mockito.mock(Iterator.class));
+        Mockito.when(mockedGame.getPlayers()).thenReturn(Mockito.mock(Enumeration.class));
+        Mockito.when(mockedGame.getAttacks()).thenReturn(Mockito.mock(Enumeration.class));
+
+        Mockito.when(mockedPlayer.getTeam()).thenReturn(2);
+        Mockito.when(mockedPlayer.getId()).thenReturn(1);
+
+//        start test server
+        Mockito.when(mockedGame.getPlayersVector()).thenReturn(new Vector<IPlayer>(){{add(mockedPlayer);}});
+
+        Server server = new Server("TestServer", 1111);
+        server.setGame(mockedGame);
+
+//        Call function under test
+        server.forceVictory(mockedPlayer);
+
+//        Verify results
+        Mockito.verify(mockedGame).setForceVictory(true);
+        Mockito.verify(mockedGame).setVictoryPlayerId(IPlayer.PLAYER_NONE);
+        Mockito.verify(mockedGame).setVictoryTeam(2);
+
+        Mockito.verify(mockedPlayer).setAdmitsDefeat(false);
+
+    }
+
+
+    @Test
+    public void testForceVictoryPlayer() throws IOException{
+//        Mock the game
+        IGame mockedGame = Mockito.mock(IGame.class);
+//        Mock the player
+        IPlayer mockedPlayer = Mockito.mock(IPlayer.class);
+
+//        Set up the test data
+        Mockito.when(mockedGame.getEntities()).thenReturn(Mockito.mock(Iterator.class));
+        Mockito.when(mockedGame.getPlayers()).thenReturn(Mockito.mock(Enumeration.class));
+        Mockito.when(mockedGame.getAttacks()).thenReturn(Mockito.mock(Enumeration.class));
+        Mockito.when(mockedPlayer.getId()).thenReturn(1);
+
+        Mockito.when(mockedGame.getPlayersVector()).thenReturn(new Vector<IPlayer>(){{add(mockedPlayer);}});
+
+//        start test server
+        Server server = new Server("TestServer", 1111);
+        server.setGame(mockedGame);
+
+//        Call function under test
+        server.forceVictory(mockedPlayer);
+
+//        Verify results
+        Mockito.verify(mockedGame).setForceVictory(true);
+        Mockito.verify(mockedGame).setVictoryPlayerId(1);
+        Mockito.verify(mockedGame).setVictoryTeam(IPlayer.TEAM_NONE);
+        Mockito.verify(mockedPlayer).setAdmitsDefeat(false);
 
     }
 }
