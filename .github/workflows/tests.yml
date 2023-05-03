@@ -2,7 +2,8 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches:
+      - Reengineering
   pull_request:
     branches: [ $default-branch ]
   workflow_dispatch:
