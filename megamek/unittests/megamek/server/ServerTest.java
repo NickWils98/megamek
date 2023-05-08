@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
+@RunWith(JUnit4.class)
 public class ServerTest {
 
     @Test
@@ -36,6 +37,7 @@ public class ServerTest {
         server.setGame(mockedGame);
         boolean victory_result = server.victory();
         TestCase.assertFalse(victory_result);
+        server.die();
     }
 
     @Test
@@ -51,10 +53,11 @@ public class ServerTest {
         Mockito.when(mockedGame.getEntities()).thenReturn(Mockito.mock(Iterator.class));
         Mockito.when(mockedGame.getPlayers()).thenReturn(Mockito.mock(Enumeration.class));
         Mockito.when(mockedGame.getAttacks()).thenReturn(Mockito.mock(Enumeration.class));
-        Server server = new Server("TestServer", 1111);
+        Server server = new Server("TestServer", 1112);
         server.setGame(mockedGame);
         boolean victory_result = server.victory();
         TestCase.assertTrue(victory_result);
+        server.die();
     }
 
     @Test
@@ -72,7 +75,7 @@ public class ServerTest {
         Mockito.when(mockedGame.getPlayers()).thenReturn(Mockito.mock(Enumeration.class));
         Mockito.when(mockedGame.getAttacks()).thenReturn(Mockito.mock(Enumeration.class));
 
-        Server server = new Server("TestServer", 1111);
+        Server server = new Server("TestServer", 1113);
         server.setGame(mockedGame);
         boolean victory_result = server.victory();
         TestCase.assertTrue(victory_result);
@@ -91,7 +94,7 @@ public class ServerTest {
         Mockito.when(mockedGame.getAttacks()).thenReturn(Mockito.mock(Enumeration.class));
 
 //        start test server
-        Server server = new Server("TestServer", 1111);
+        Server server = new Server("TestServer", 1114);
         server.setGame(mockedGame);
 
 //        Call function under test
@@ -101,7 +104,7 @@ public class ServerTest {
         Mockito.verify(mockedGame,Mockito.times(1)).setForceVictory(false);
         Mockito.verify(mockedGame, Mockito.times(1)).setVictoryPlayerId(IPlayer.PLAYER_NONE);
         Mockito.verify(mockedGame, Mockito.times(1)).setVictoryTeam(IPlayer.TEAM_NONE);
-
+        server.die();
     }
 
     @Test
@@ -122,7 +125,7 @@ public class ServerTest {
 //        start test server
         Mockito.when(mockedGame.getPlayersVector()).thenReturn(new Vector<IPlayer>(){{add(mockedPlayer);}});
 
-        Server server = new Server("TestServer", 1111);
+        Server server = new Server("TestServer", 1115);
         server.setGame(mockedGame);
 
 //        Call function under test
@@ -134,7 +137,7 @@ public class ServerTest {
         Mockito.verify(mockedGame).setVictoryTeam(2);
 
         Mockito.verify(mockedPlayer).setAdmitsDefeat(false);
-
+        server.die();
     }
 
 
@@ -154,7 +157,7 @@ public class ServerTest {
         Mockito.when(mockedGame.getPlayersVector()).thenReturn(new Vector<IPlayer>(){{add(mockedPlayer);}});
 
 //        start test server
-        Server server = new Server("TestServer", 1111);
+        Server server = new Server("TestServer", 1116);
         server.setGame(mockedGame);
 
 //        Call function under test
@@ -165,6 +168,6 @@ public class ServerTest {
         Mockito.verify(mockedGame).setVictoryPlayerId(1);
         Mockito.verify(mockedGame).setVictoryTeam(IPlayer.TEAM_NONE);
         Mockito.verify(mockedPlayer).setAdmitsDefeat(false);
-
+        server.die();
     }
 }
