@@ -29,8 +29,8 @@ public class Victory implements Serializable {
     private boolean checkForVictory;
     private int neededVictoryConditions;
 
-    private IVictoryConditions force = new ForceVictory();
-    private IVictoryConditions lastMan = new LastManStandingVictory();
+    private final IVictoryConditions force = new ForceVictory();
+    private final IVictoryConditions lastMan = new LastManStandingVictory();
     private IVictoryConditions[] VCs = null;
 
     public Victory(GameOptions options) {
