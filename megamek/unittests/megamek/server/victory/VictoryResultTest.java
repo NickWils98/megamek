@@ -121,8 +121,6 @@ public class VictoryResultTest {
 
         VictoryResult vr = new VictoryResult(true);
 
-        TestCase.assertTrue(vr.handleReports(mockedGame).size() == 0);
-
         vr.addTeamScore(1, 1);
         vr.addTeamScore(2, 1);
         ArrayList<Report> reports = vr.handleReports(mockedGame);

@@ -22,5 +22,6 @@ public class PlayerTest {
 
         TestCase.assertTrue(true);
 //        TestCase.assertEquals("<B><font color='8080b0'> TestPlayer </font></B>", server.getColorForPlayer(player));
+        server.die();
     }
 }
