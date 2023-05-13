@@ -1546,4 +1546,6 @@ public interface IGame {
             HashSet<Coords> oldPositions);
 
     public abstract String getUUIDString();
+
+    abstract void cancelVictory();
 }

@@ -3675,4 +3675,13 @@ public class Game implements Serializable, IGame {
 
     }
 
+
+    /**
+     * Cancels the force victory
+     */
+    public void cancelVictory() {
+        setForceVictory(false);
+        setVictoryPlayerId(IPlayer.PLAYER_NONE);
+        setVictoryTeam(IPlayer.TEAM_NONE);
+    }
 }
