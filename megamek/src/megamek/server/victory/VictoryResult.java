@@ -17,11 +17,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import megamek.common.IGame;
 import megamek.common.IPlayer;
 import megamek.common.Report;
-import megamek.server.Server;
 
 /**
  * quick implementation of a Victory.Result stores player scores and a flag if
@@ -59,18 +60,18 @@ public class VictoryResult implements IResult {
         return new VictoryResult(true, IPlayer.PLAYER_NONE, IPlayer.TEAM_NONE);
     }
 
-    public int getWinningEntity(HashMap<Integer, Double> entityScore, int entity) {
+    public int getWinningEntity(Map<Integer, Double> entityScore, int entity) {
         double max = Double.MIN_VALUE;
         int maxEntity = entity;
         boolean draw = false;
-        for (int i:  entityScore.keySet()) {
-            if (entityScore.get(i) == max) {
+        for (Map.Entry<Integer, Double> entry:  entityScore.entrySet()) {
+            if (entry.getValue() == max) {
                 draw = true;
             }
-            if (entityScore.get(i) > max) {
+            if (entry.getValue() > max) {
                 draw = false;
-                max = entityScore.get(i);
-                maxEntity = i;
+                max = entry.getValue();
+                maxEntity = entry.getKey();
             }
         }
         if (draw)
@@ -181,7 +182,7 @@ public class VictoryResult implements IResult {
         return (getWinningPlayer() == IPlayer.PLAYER_NONE && getWinningTeam() == IPlayer.TEAM_NONE);
     }
 
-    public ArrayList<Report> handleReports(IGame game) {
+    public List<Report> handleReports(IGame game) {
         ArrayList<Report> proccessingReports = getReports() ;
         if (victory()) {
             boolean draw = isDraw();

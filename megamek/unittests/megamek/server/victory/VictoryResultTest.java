@@ -94,7 +94,7 @@ public class VictoryResultTest {
          TestCase.assertTrue(vr.handleReports(mockedGame).size() == 0);
 
          vr.addPlayerScore(1, 1);
-         ArrayList<Report> reports = vr.handleReports(mockedGame);
+         List<Report> reports = vr.handleReports(mockedGame);
          Mockito.verify(mockedGame).getPlayer(1);
          Mockito.verify(mockedPlayer).getColorForPlayer();
          TestCase.assertTrue(reports.size() == 1);
@@ -109,7 +109,7 @@ public class VictoryResultTest {
         TestCase.assertTrue(vr.handleReports(mockedGame).size() == 0);
 
         vr.addTeamScore(1, 1);
-        ArrayList<Report> reports = vr.handleReports(mockedGame);
+        List<Report> reports = vr.handleReports(mockedGame);
 
         TestCase.assertTrue(reports.size() == 1);
         TestCase.assertTrue(reports.get(reports.size()-1).getText().contains("Team 1"));
@@ -123,7 +123,7 @@ public class VictoryResultTest {
 
         vr.addTeamScore(1, 1);
         vr.addTeamScore(2, 1);
-        ArrayList<Report> reports = vr.handleReports(mockedGame);
+        List<Report> reports = vr.handleReports(mockedGame);
 
         Mockito.verify(mockedGame).setVictoryTeam(IPlayer.TEAM_NONE);
         Mockito.verify(mockedGame).setVictoryPlayerId(IPlayer.PLAYER_NONE);
@@ -135,7 +135,7 @@ public class VictoryResultTest {
         Mockito.when(mockedGame.isForceVictory()).thenReturn(true);
 
         VictoryResult vr = new VictoryResult(false);
-        ArrayList<Report> reports = vr.handleReports(mockedGame);
+        List<Report> reports = vr.handleReports(mockedGame);
 
         Mockito.verify(mockedGame).setVictoryTeam(IPlayer.TEAM_NONE);
         Mockito.verify(mockedGame).setVictoryPlayerId(IPlayer.PLAYER_NONE);
