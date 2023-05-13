@@ -27,8 +27,7 @@ public class ServerTest {
         VictoryResult mockedVictoryResult = Mockito.mock(VictoryResult.class);
         Victory mockedVictory = Mockito.mock(Victory.class);
 
-        Mockito.when(mockedGame.getVictory()).thenReturn(mockedVictory);
-        Mockito.when(mockedVictory.checkForVictory(mockedGame, mockedGame.getVictoryContext())).thenReturn(mockedVictoryResult);
+        Mockito.when(mockedGame.getVictoryResult()).thenReturn(mockedVictoryResult);
         Mockito.when(mockedGame.getEntities()).thenReturn(Mockito.mock(Iterator.class));
         Mockito.when(mockedGame.getPlayers()).thenReturn(Mockito.mock(Enumeration.class));
         Mockito.when(mockedGame.getAttacks()).thenReturn(Mockito.mock(Enumeration.class));
