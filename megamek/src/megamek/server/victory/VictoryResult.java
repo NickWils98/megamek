@@ -216,4 +216,20 @@ public class VictoryResult implements IResult {
         }
         return proccessingReports;
     }
+
+    /**
+     * combine scores
+     * @param res victory result
+     */
+    public void combineScore(VictoryResult res){
+        for (Report r : res.getReports()) {
+            addReport(r);
+        }
+        for (int pl : res.getPlayers()) {
+            addPlayerScore(pl, getPlayerScore(pl) + res.getPlayerScore(pl));
+        }
+        for (int t : res.getTeams()) {
+            addTeamScore(t, getTeamScore(t) + res.getTeamScore(t));
+        }
+    }
 }

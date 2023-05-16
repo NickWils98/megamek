@@ -94,7 +94,6 @@ public class Victory implements Serializable {
         }
         return reVal;
     }
-
     private VictoryResult checkOptionalVictory(IGame game, Map<String, Object> context) {
         boolean victory = false;
         VictoryResult vr = new VictoryResult(true);
@@ -102,36 +101,14 @@ public class Victory implements Serializable {
         // combine scores
         for (IVictoryConditions v : VCs) {
             VictoryResult res = v.victory(game, context);
-            for (Report r : res.getReports()) {
-                vr.addReport(r);
-            }
+            vr.combineScore(res);
             if (res.victory()) {
                 victory = true;
             }
-            for (int pl : res.getPlayers()) {
-                vr.addPlayerScore(pl, vr.getPlayerScore(pl) + res.getPlayerScore(pl));
-            }
-            for (int t : res.getTeams()) {
-                vr.addTeamScore(t, vr.getTeamScore(t) + res.getTeamScore(t));
-            }
         }
-        // find highscore for thresholding, also divide the score
-        // to an average
-        double highScore = 0.0;
-        for (int pl : vr.getPlayers()) {
-            double sc = vr.getPlayerScore(pl);
-            vr.addPlayerScore(pl, sc / VCs.length);
-            if (sc > highScore) {
-                highScore = sc;
-            }
-        }
-        for (int pl : vr.getTeams()) {
-            double sc = vr.getTeamScore(pl);
-            vr.addTeamScore(pl, sc / VCs.length);
-            if (sc > highScore) {
-                highScore = sc;
-            }
-        }
+
+        double highScore = calculateScore(vr);
+
         if (highScore < neededVictoryConditions) {
             victory = false;
         }
@@ -144,7 +121,33 @@ public class Victory implements Serializable {
         if (!vr.victory() && game.gameTimerIsExpired()) {
             return VictoryResult.drawResult();
         }
-
         return vr;
+    }
+
+    /**
+     * Find highScore for thresholding, also divide the score
+     * to an average
+     * @param vr victory result
+     * @return highScore
+     */
+    private double calculateScore(VictoryResult vr) {
+        double highScore = 0.0;
+        // Calculate score for player
+        for (int pl : vr.getPlayers()) {
+            double sc = vr.getPlayerScore(pl);
+            vr.addPlayerScore(pl, sc / VCs.length);
+            if (sc > highScore) {
+                highScore = sc;
+            }
+        }
+        // Calculate score for the team
+        for (int pl : vr.getTeams()) {
+            double sc = vr.getTeamScore(pl);
+            vr.addTeamScore(pl, sc / VCs.length);
+            if (sc > highScore) {
+                highScore = sc;
+            }
+        }
+        return highScore;
     }
 }
