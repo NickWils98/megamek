@@ -1551,4 +1551,9 @@ public interface IGame {
     abstract void cancelVictory();
 
     VictoryResult getVictoryResult();
+
+    /**
+     * Set victory for player and team
+     */
+    abstract void setVictory(int playerID, int teamID);
 }

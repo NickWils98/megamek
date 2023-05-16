@@ -201,18 +201,15 @@ public class VictoryResult implements IResult {
             }
             if (draw) {
                 // multiple-won draw
-                game.setVictoryPlayerId(IPlayer.PLAYER_NONE);
-                game.setVictoryTeam(IPlayer.TEAM_NONE);
+                game.setVictory(IPlayer.PLAYER_NONE, IPlayer.TEAM_NONE);
             } else {
                 // nobody-won draw or
                 // single player won or
                 // single team won
-                game.setVictoryPlayerId(wonPlayer);
-                game.setVictoryTeam(wonTeam);
+                game.setVictory(wonPlayer, wonTeam);
             }
         } else {
-            game.setVictoryPlayerId(IPlayer.PLAYER_NONE);
-            game.setVictoryTeam(IPlayer.TEAM_NONE);
+            game.setVictory(IPlayer.PLAYER_NONE, IPlayer.TEAM_NONE);
             if (game.isForceVictory()) {
                 game.cancelVictory();
             }

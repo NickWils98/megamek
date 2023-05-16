@@ -3689,4 +3689,15 @@ public class Game implements Serializable, IGame {
     public VictoryResult getVictoryResult() {
         return getVictory().checkForVictory(this, getVictoryContext());
     }
+
+    /**
+     * Set victory of team and player.
+     * @param playerID team ID
+     * @param teamID player ID
+     */
+    public void setVictory(int playerID, int teamID) {
+        setVictoryPlayerId(playerID);
+        setVictoryTeam(teamID);
+    }
+
 }
