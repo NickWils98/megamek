@@ -17,6 +17,7 @@ package megamek.common;
 import junit.framework.TestCase;
 import megamek.common.Entity;
 import megamek.common.options.GameOptions;
+import megamek.server.Server;
 import megamek.server.SmokeCloud;
 
 import org.junit.Test;
@@ -25,6 +26,7 @@ import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -39,7 +41,12 @@ import java.util.Vector;
 public class ComputeECMTest {
     
     @Test
-    public void testEntityGetECMInfo() {
+    public void testEntityGetECMInfo() throws IOException {
+        // Mock Player
+        Server server = Server.getServerInstance();
+        if (server != null) {
+            server.die();
+        }
         // Mock Player
         IPlayer mockPlayer = Mockito.mock(IPlayer.class);
         
