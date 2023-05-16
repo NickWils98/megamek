@@ -1550,7 +1550,7 @@ public interface IGame {
 
     abstract void cancelVictory();
 
-    VictoryResult getVictoryResult();
+    abstract VictoryResult getVictoryResult();
 
     /**
      * Set victory for player and team
