@@ -40,4 +40,4 @@ jobs:
     - name: Grant execute permission for gradlew (*nix or MacOS)
       run: chmod +x gradlew
     - name: Run tests
-      run: ./gradlew test --tests "*" --scan
+      run: ./gradlew test --tests "*" --stacktrace --debug --scan --info
