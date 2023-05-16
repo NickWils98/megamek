@@ -183,39 +183,49 @@ public class VictoryResult implements IResult {
     }
 
     public List<Report> handleReports(IGame game) {
-        ArrayList<Report> proccessingReports = getReports() ;
         if (victory()) {
-            boolean draw = isDraw();
-            int wonPlayer = getWinningPlayer();
-            int wonTeam = getWinningTeam();
-
-            if (wonPlayer != IPlayer.PLAYER_NONE) {
-                Report r = new Report(7200, Report.PUBLIC);
-                r.add(game.getPlayer(wonPlayer).getColorForPlayer());
-                proccessingReports.add(r);
-            }
-            if (wonTeam != IPlayer.TEAM_NONE) {
-                Report r = new Report(7200, Report.PUBLIC);
-                r.add("Team " + wonTeam);
-                proccessingReports.add(r);
-            }
-            if (draw) {
-                // multiple-won draw
-                game.setVictory(IPlayer.PLAYER_NONE, IPlayer.TEAM_NONE);
-            } else {
-                // nobody-won draw or
-                // single player won or
-                // single team won
-                game.setVictory(wonPlayer, wonTeam);
-            }
+            return handleReportsVictory(game);
         } else {
+            return handleReportsLoss(game);
+        }
+    }
+
+    public List<Report> handleReportsVictory(IGame game) {
+        ArrayList<Report> proccessingReports = getReports() ;
+        boolean draw = isDraw();
+        int wonPlayer = getWinningPlayer();
+        int wonTeam = getWinningTeam();
+
+        if (wonPlayer != IPlayer.PLAYER_NONE) {
+            Report r = new Report(7200, Report.PUBLIC);
+            r.add(game.getPlayer(wonPlayer).getColorForPlayer());
+            proccessingReports.add(r);
+        }
+        if (wonTeam != IPlayer.TEAM_NONE) {
+            Report r = new Report(7200, Report.PUBLIC);
+            r.add("Team " + wonTeam);
+            proccessingReports.add(r);
+        }
+        if (draw) {
+            // multiple-won draw
             game.setVictory(IPlayer.PLAYER_NONE, IPlayer.TEAM_NONE);
-            if (game.isForceVictory()) {
-                game.cancelVictory();
-            }
+        } else {
+            // nobody-won draw or
+            // single player won or
+            // single team won
+            game.setVictory(wonPlayer, wonTeam);
         }
         return proccessingReports;
     }
+
+    public List<Report> handleReportsLoss(IGame game) {
+        game.setVictory(IPlayer.PLAYER_NONE, IPlayer.TEAM_NONE);
+        if (game.isForceVictory()) {
+            game.cancelVictory();
+        }
+        return getReports();
+    }
+
 
     /**
      * combine scores
