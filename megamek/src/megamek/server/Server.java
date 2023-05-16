@@ -3299,7 +3299,9 @@ public class Server implements Runnable {
         for (Report r : vr.handleReports(game)) {
             addReport(r);
         }
-        
+        if (vr.victory()) {
+            vr.updateElo(game);
+        }
         return vr.victory();
     }// end victory
 

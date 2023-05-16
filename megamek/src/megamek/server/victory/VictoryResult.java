@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import megamek.common.Game;
 import megamek.common.IGame;
 import megamek.common.IPlayer;
 import megamek.common.Report;
@@ -240,6 +241,43 @@ public class VictoryResult implements IResult {
         }
         for (int t : res.getTeams()) {
             addTeamScore(t, getTeamScore(t) + res.getTeamScore(t));
+        }
+    }
+    public void updateElo(IGame game){
+        List<Integer> winningList = new ArrayList<Integer>();
+        List<Integer> losingList = new ArrayList<Integer>();
+
+        for (int pl: getPlayers()){
+            if (isWinningPlayer(pl)){
+                winningList.add(pl);
+            } else {
+                losingList.add(pl);
+            }
+        }
+        int averageWinningElo = getAverageElo(game, winningList);
+        int averageLosingElo = getAverageElo(game, losingList);
+
+        int updatscore = 5;
+        if (averageWinningElo<averageLosingElo) updatscore = 10;
+        if (averageWinningElo>averageLosingElo) updatscore = 2;
+
+        updateEloScore(game, winningList, updatscore);
+        updateEloScore(game, losingList, -updatscore);
+
+    }
+
+    private int getAverageElo(IGame game, List<Integer> playerList) {
+        if (playerList.size() == 0) return 0;
+        int averageElo = 0;
+        for (int pl: playerList) {
+            averageElo += game.getPlayer(pl).getEloScore();
+        }
+        return averageElo/playerList.size();
+    }
+
+    private void updateEloScore(IGame game, List<Integer> playerList, int updateScore) {
+        for (int pl: playerList) {
+            game.getPlayer(pl).setEloScore(updateScore);
         }
     }
 }

@@ -77,6 +77,17 @@ public final class Player extends TurnOrdered implements IPlayer {
      */
     private boolean allowingTeamChange = false;
 
+    private int eloScore = 0;
+
+    public int getEloScore() {
+        return eloScore;
+    }
+
+    public void setEloScore(int eloScore) {
+        this.eloScore += eloScore;
+        if (this.eloScore<0) this.eloScore = 0;
+    }
+
     @Override
     public Vector<Minefield> getMinefields() {
         return visibleMinefields;

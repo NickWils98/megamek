@@ -196,4 +196,8 @@ public interface IPlayer extends ITurnOrdered {
     int hashCode();
 
     String getColorForPlayer();
-}
+
+    public int getEloScore();
+    public void setEloScore(int eloScore);
+
+    }
