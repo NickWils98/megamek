@@ -42,8 +42,6 @@ public class ComputeECMTest {
     
     @Test
     public void testEntityGetECMInfo() throws IOException {
-        // Mock
-        Mockito.when(Server.getServerInstance()).thenReturn(null);
         // Mock Player
         IPlayer mockPlayer = Mockito.mock(IPlayer.class);
         
