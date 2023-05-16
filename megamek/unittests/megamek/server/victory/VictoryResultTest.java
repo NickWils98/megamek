@@ -125,8 +125,7 @@ public class VictoryResultTest {
         vr.addTeamScore(2, 1);
         List<Report> reports = vr.handleReports(mockedGame);
 
-        Mockito.verify(mockedGame).setVictoryTeam(IPlayer.TEAM_NONE);
-        Mockito.verify(mockedGame).setVictoryPlayerId(IPlayer.PLAYER_NONE);
+        Mockito.verify(mockedGame).setVictory(IPlayer.PLAYER_NONE, IPlayer.TEAM_NONE);
     }
 
     @Test
@@ -136,9 +135,7 @@ public class VictoryResultTest {
 
         VictoryResult vr = new VictoryResult(false);
         List<Report> reports = vr.handleReports(mockedGame);
-
-        Mockito.verify(mockedGame).setVictoryTeam(IPlayer.TEAM_NONE);
-        Mockito.verify(mockedGame).setVictoryPlayerId(IPlayer.PLAYER_NONE);
+        Mockito.verify(mockedGame).setVictory(IPlayer.PLAYER_NONE, IPlayer.TEAM_NONE);
         Mockito.verify(mockedGame).cancelVictory();
 
     }
