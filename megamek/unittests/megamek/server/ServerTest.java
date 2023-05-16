@@ -66,8 +66,8 @@ public class ServerTest {
 
 //        Verify results
         Mockito.verify(mockedGame).setForceVictory(true);
-        Mockito.verify(mockedGame).setVictoryPlayerId(IPlayer.PLAYER_NONE);
-        Mockito.verify(mockedGame).setVictoryTeam(2);
+
+        Mockito.verify(mockedGame).setVictory(IPlayer.PLAYER_NONE, 2);
 
         Mockito.verify(mockedPlayer).setAdmitsDefeat(false);
         server.die();
@@ -98,8 +98,8 @@ public class ServerTest {
 
 //        Verify results
         Mockito.verify(mockedGame).setForceVictory(true);
-        Mockito.verify(mockedGame).setVictoryPlayerId(1);
-        Mockito.verify(mockedGame).setVictoryTeam(IPlayer.TEAM_NONE);
+
+        Mockito.verify(mockedGame).setVictory(1, IPlayer.TEAM_NONE);
         Mockito.verify(mockedPlayer).setAdmitsDefeat(false);
         server.die();
     }
